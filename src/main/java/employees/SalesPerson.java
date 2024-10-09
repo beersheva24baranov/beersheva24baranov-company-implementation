@@ -3,28 +3,34 @@ package employees;
 import org.json.JSONObject;
 
 public class SalesPerson extends WageEmployee {
-  private float percent;
-  private long sales;
+    float percent;
+    long sales;
 
-  public SalesPerson(long id, int basicSalary, String department, int wage, int hours,
-      float percent, long sales) {
-    super(id, basicSalary, department, wage, hours);
-    this.percent = percent;
-    this.sales = sales;
-  }
+    public SalesPerson() {
+    }
 
-  @Override
-  public int computeSalary() {
-    return (int) (super.computeSalary() + sales * percent / 100);
-  }
+    public SalesPerson(long id, int salary, String department, int wage, int hours, float percent, long sales) {
+        super(id, salary, department, wage, hours);
+        this.percent = percent;
+        this.sales = sales;
+    }
 
-  @Override
-  protected void fillJSON(JSONObject jsonObj) {
-    // TODO
-  }
+    @Override
+    public int computeSalary() {
+        return (int) (super.computeSalary() + percent * sales / 100);
+    }
 
-  @Override
-  protected void setObject(JSONObject jsonObj) {
-    // TODO
-  }
+    @Override
+    protected void fillJSON(JSONObject json) {
+        super.fillJSON(json);
+        json.put("percent", percent);
+        json.put("sales", sales);
+    }
+
+    @Override
+    protected void setObject(JSONObject json) {
+        super.setObject(json);
+        percent = json.getFloat("percent");
+        sales = json.getLong("sales");
+    }
 }
