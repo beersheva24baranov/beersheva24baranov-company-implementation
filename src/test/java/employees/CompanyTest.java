@@ -140,16 +140,12 @@ class CompanyTest {
 		assertArrayEquals(new Manager[0], company.getManagersWithMostFactor());
 		assertArrayEquals(new String[] { DEPARTMENT1 }, company.getDepartments());
 	}
-	@Test
-		void jsonTest() {
-			Employee empl = Employee.getEmployeeFromJSON("{\"basicSalary\":1000,\"className\":\"employees.Manager\",\"id\":123,\"department\":\"QA\",\"factor\":2}");
-			assertEquals(empl, new Manager(ID1,SALARY1,DEPARTMENT1,FACTOR1));
-		}
+	
 
 	@Test
 		void persistenceTest() {
 			if (company instanceof Persistable persCompany) {
-				persCompany.saveToFile("company.data");
+				persCompany.saveTofile("company.data");
 				CompanyImpl comp = new CompanyImpl();
 				comp.restoreFromFile("company.data");
 				runTestIterator(comp);

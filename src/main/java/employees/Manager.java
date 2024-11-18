@@ -1,4 +1,5 @@
 package employees;
+
 import org.json.JSONObject;
 
 public class Manager extends Employee {
@@ -7,8 +8,14 @@ public class Manager extends Employee {
     public Manager() {
     }
 
-    public Manager(long id, int salary, String department, float factor) {
-        super(id, salary, department);
+    @Override
+    protected void setObject(JSONObject jsonObject) {
+        super.setObject(jsonObject);
+        factor = jsonObject.getFloat("factor");
+    }
+    
+    public Manager(long id, int basicSalary, String department, float factor) {
+        super(id, basicSalary, department);
         this.factor = factor;
     }
 
@@ -18,18 +25,13 @@ public class Manager extends Employee {
 
     @Override
     public int computeSalary() {
-        return (int) Math.round(super.computeSalary() * factor);
+        return (int) (super.computeSalary() * factor);
     }
 
     @Override
-    protected void fillJSON(JSONObject json) {
-        super.fillJSON(json);
-        json.put("factor", factor);
+    protected void fillJSON(JSONObject jsonObject) {
+        super.fillJSON(jsonObject);
+        jsonObject.put("factor", factor);
     }
 
-    @Override
-    protected void setObject(JSONObject json) {
-        super.setObject(json);
-        factor = json.getFloat("factor");
-    }
 }

@@ -1,7 +1,7 @@
 package io;
 
 public interface Persistable {
-    void saveToFile(String fileName);
+    boolean saveTofile(String fileName);
 
     void restoreFromFile(String fileName);
 }
