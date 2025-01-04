@@ -7,6 +7,9 @@ import employees.Employee;
 public class EmployeesMapper {
 private static final String PACKAGE = "telran.employees.";
 private static final String CLASS_NAME = "className";
+private static final String ENTITY = "Entity";
+private static final String PACKAGE_ENTITY = PACKAGE + "db.jpa.";
+
 
 public static Employee toEmployeeDtoFromEntity(EmployeeEntity entity) {
     String entityClassName = entity.getClass().getSimpleName();
@@ -17,7 +20,16 @@ public static Employee toEmployeeDtoFromEntity(EmployeeEntity entity) {
     return Employee.getEmployeeFromJSON(jsonObj.toString());
 }
 public static EmployeeEntity toEmployeeEntityFromDto(Employee empl) {
-    //TODO
-    return null;
+    String dtoClassName = empl.getClass().getSimpleName();
+    String entityClassName = PACKAGE_ENTITY + dtoClassName + ENTITY;
+    try {
+        EmployeeEntity entity = (EmployeeEntity) Class.forName(entityClassName)
+                .getDeclaredConstructor()
+                .newInstance();
+        entity.fromEmployeeDto(empl);
+        return entity;
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
 }
 }
